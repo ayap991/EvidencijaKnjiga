@@ -27,7 +27,7 @@
                 @Html.DisplayNameFor(model => model.Autor)
             </th>
             <th>
-                <label for="procitana">Pročitana</label>
+                @Html.DisplayNameFor(model => model.Status)
             </th>
         </tr>
     </thead>
@@ -46,7 +46,7 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <td>
-                    <input type="checkbox" id="procitana "name="procitana" />
+                    @Html.DisplayFor(modelItem => item.Status.Opis)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ID">Uredi</a> |

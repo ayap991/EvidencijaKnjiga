@@ -23,11 +23,11 @@ namespace EvidencijaKnjiga.Controllers
         // GET: Knjige
         public async Task<IActionResult> Index(string search)
         {
-            var applicationDbContext = _context.Knjiga.Include(k => k.Autor);
+            var applicationDbContext = _context.Knjiga.Include(k => k.Autor).Include(k => k.Status);
             if (!String.IsNullOrEmpty(search))
             {
 
-                var knjige = from knjiga in _context.Knjiga.Include(k => k.Autor)
+                var knjige = from knjiga in _context.Knjiga.Include(k => k.Autor).Include(k => k.Status)
                              select knjiga;
                 knjige = knjige.Where(knjiga => knjiga.Naziv.Contains(search));
                 return View(knjige.ToList());
@@ -47,6 +47,7 @@ namespace EvidencijaKnjiga.Controllers
 
             var knjiga = await _context.Knjiga
                 .Include(k => k.Autor)
+                .Include(k => k.Status)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (knjiga == null)
             {
@@ -60,6 +61,7 @@ namespace EvidencijaKnjiga.Controllers
         public IActionResult Create()
         {
             ViewData["AutorID"] = new SelectList(_context.Autor, "ID", "Ime");
+            ViewData["StatusID"] = new SelectList(_context.Status, "ID", "Opis");
             return View();
         }
 
@@ -68,7 +70,7 @@ namespace EvidencijaKnjiga.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Naziv,GodinaIzdanja,AutorID")] Knjiga knjiga)
+        public async Task<IActionResult> Create([Bind("ID,Naziv,GodinaIzdanja,AutorID,StatusID")] Knjiga knjiga)
         {
             if (ModelState.IsValid)
             {
@@ -77,6 +79,7 @@ namespace EvidencijaKnjiga.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AutorID"] = new SelectList(_context.Autor, "ID", "Ime", knjiga.AutorID);
+            ViewData["StatusID"] = new SelectList(_context.Status, "ID", "Opis", knjiga.StatusID);
             return View(knjiga);
         }
 
@@ -94,6 +97,7 @@ namespace EvidencijaKnjiga.Controllers
                 return NotFound();
             }
             ViewData["AutorID"] = new SelectList(_context.Autor, "ID", "Ime", knjiga.AutorID);
+            ViewData["StatusID"] = new SelectList(_context.Status, "ID", "Opis",knjiga.StatusID);
             return View(knjiga);
         }
 
@@ -102,7 +106,7 @@ namespace EvidencijaKnjiga.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Naziv,GodinaIzdanja,AutorID")] Knjiga knjiga)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Naziv,GodinaIzdanja,AutorID,StatusID")] Knjiga knjiga)
         {
             if (id != knjiga.ID)
             {
@@ -130,6 +134,7 @@ namespace EvidencijaKnjiga.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["AutorID"] = new SelectList(_context.Autor, "ID", "Ime", knjiga.AutorID);
+            ViewData["StatusID"] = new SelectList(_context.Status, "ID", "Opis",knjiga.StatusID);
             return View(knjiga);
         }
 
@@ -143,6 +148,7 @@ namespace EvidencijaKnjiga.Controllers
 
             var knjiga = await _context.Knjiga
                 .Include(k => k.Autor)
+                .Include(K => K.Status)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (knjiga == null)
             {

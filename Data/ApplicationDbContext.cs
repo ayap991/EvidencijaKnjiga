@@ -15,5 +15,6 @@ namespace EvidencijaKnjiga.Data
         }
         public DbSet<EvidencijaKnjiga.Models.Autor> Autor { get; set; }
         public DbSet<EvidencijaKnjiga.Models.Knjiga> Knjiga { get; set; }
+        public DbSet<EvidencijaKnjiga.Models.Status> Status { get; set; }
     }
 }
