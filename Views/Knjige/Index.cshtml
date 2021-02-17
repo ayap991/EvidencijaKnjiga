@@ -3,17 +3,18 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<p>
-    <a asp-action="Create">Novi unos</a>
-</p>
-
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Novi unos</a>
+    </p>
+}
 <form typeof="get">
-    Pretraga: 
-    <input type="search" name="search"/>
+    Pretraga:
+    <input type="search" name="search" />
     <input type="submit" value="Traži" />
 </form>
-<br/>
+<br />
 <table class="table">
     <thead>
         <tr>
@@ -26,35 +27,39 @@
             <th>
                 @Html.DisplayNameFor(model => model.Autor)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+            }
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Naziv)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GodinaIzdanja)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Autor.Ime)
-            </td>
-            @if (User.Identity.IsAuthenticated)
-            {
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Status.Opis)
+                    @Html.DisplayFor(modelItem => item.Naziv)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Uredi</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Detalji</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Obriši</a>
+                    @Html.DisplayFor(modelItem => item.GodinaIzdanja)
                 </td>
-            }
-        </tr>
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.Autor.Ime)
+                </td>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status.Opis)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Uredi</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Detalji</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Obriši</a>
+                    </td>
+                }
+            </tr>
+        }
     </tbody>
 </table>
