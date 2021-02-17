@@ -24,6 +24,7 @@ namespace EvidencijaKnjiga.Controllers
         public async Task<IActionResult> Index(string search)
         {
             var applicationDbContext = _context.Knjiga.Include(k => k.Autor).Include(k => k.Status);
+
             if (!String.IsNullOrEmpty(search))
             {
 

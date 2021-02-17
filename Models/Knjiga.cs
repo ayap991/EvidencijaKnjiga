@@ -20,8 +20,9 @@ namespace EvidencijaKnjiga.Models
 
         [Display(Name = "Status")]
         public string StatusID { get; set; }
-        public virtual Autor Autor { get; set; }
 
+
+        public virtual Autor Autor { get; set; }
         public virtual Status Status { get; set; }
     }
 }

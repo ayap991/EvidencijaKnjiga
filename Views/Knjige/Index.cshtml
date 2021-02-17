@@ -38,28 +38,29 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Naziv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GodinaIzdanja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Autor.Ime)
+            </td>
+
+            @if (User.Identity.IsAuthenticated)
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.Naziv)
+                    @Html.DisplayFor(modelItem => item.Status.Opis)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.GodinaIzdanja)
+                    <a asp-action="Edit" asp-route-id="@item.ID">Uredi</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Detalji</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Obriši</a>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Autor.Ime)
-                </td>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status.Opis)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ID">Uredi</a> |
-                        <a asp-action="Details" asp-route-id="@item.ID">Detalji</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ID">Obriši</a>
-                    </td>
-                }
-            </tr>
+            }
+        </tr>
         }
     </tbody>
 </table>
