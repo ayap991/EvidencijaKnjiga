@@ -1,0 +1,60 @@
+﻿@model IEnumerable<EvidencijaKnjiga.Models.Knjiga>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a asp-action="Create">Novi unos</a>
+</p>
+
+<form typeof="get">
+    Pretraga: 
+    <input type="search" name="search"/>
+    <input type="submit" value="Traži" />
+</form>
+<br/>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Naziv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GodinaIzdanja)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autor)
+            </th>
+            <th>
+                <label for="procitana">Pročitana</label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Naziv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GodinaIzdanja)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Autor.Ime)
+            </td>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <td>
+                    <input type="checkbox" id="procitana "name="procitana" />
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Uredi</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Detalji</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Obriši</a>
+                </td>
+            }
+        </tr>
+}
+    </tbody>
+</table>

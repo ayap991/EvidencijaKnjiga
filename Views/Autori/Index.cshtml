@@ -1,0 +1,41 @@
+﻿@model IEnumerable<EvidencijaKnjiga.Models.Autor>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+    <a asp-action="Create">Novi unos</a>
+</p>
+
+<form typeof="get">
+    Pretraga:
+    <input type="search" name="search" />
+    <input type="submit" value="Traži" />
+</form>
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ime)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Uredi</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Detalji</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Obriši</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
